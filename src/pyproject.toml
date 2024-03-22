@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = ["LuisGaldeano <luis.galdeano@jumbotours.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+# Basics
+python = ">=3.10,<4.0.0"
+
+#Django
+django = "5.0.3"
+
+# Django rest framework
+djangorestframework = "3.15.0"
+django-cors-headers = "4.3.1"
+
+# Gunicorn
+gunicorn = "21.2.0"
+
+# PostgreSQL
+psycopg2-binary = "2.9.9"
+djangorestframework-simplejwt = "5.3.1"
+django-model-utils = "4.4.0"
+django-4-jet = "^1.0.9"
+whitenoise = "^6.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

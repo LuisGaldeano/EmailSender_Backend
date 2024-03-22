@@ -1,0 +1,94 @@
+version: '3.8'
+services:
+  backend:
+    container_name: ${PROJECT_NAME}_backend
+    hostname: backend
+    restart: unless-stopped
+    image: ${PROJECT_NAME}_backend_image
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./src:/src/
+      - vol_logs:/src/logs
+      - vol_media:/src/media
+    env_file:
+      - .env
+    ports:
+      - "${BACKEND_PORT}:${BACKEND_PORT}"
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
+        max-file: "2"
+
+  postgres:
+    image: postgres:13
+    container_name: ${PROJECT_NAME}_postgres
+    hostname: postgres
+    restart: unless-stopped
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 50m
+        max-file: "2"
+    ports:
+      - "${POSTGRES_EXTERNAL_PORT}:5432"
+    volumes:
+      - vol_postgres_db:/var/lib/postgresql/data
+      - vol_logs:/logs
+      - vol_media:/src/media
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: ${PROJECT_NAME}_pgadmin
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5050:5050"
+    volumes:
+      - vol_backend_pgadmin_data:/var/lib/pgadmin
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.0.1
+    container_name: zookeeper
+    hostname: zookeeper
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${ZOOKEEPER_CLIENT_PORT}:${ZOOKEEPER_CLIENT_PORT}"
+    networks:
+      - kafka-net
+  kafka:
+    image: confluentinc/cp-kafka:7.0.1
+    container_name: kafka
+    hostname: kafka
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "${KAFKA_BROKER_PORT}:${KAFKA_BROKER_PORT}"
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
+
+volumes:
+  vol_media:
+    driver: local
+  vol_logs:
+    driver: local
+  vol_postgres_db:
+    driver: local
+  vol_backend_pgadmin_data:
+    driver: local
