@@ -9,9 +9,13 @@ class Client(AbstractUser, TimeStampedUUIDModel):
         null=True,
         blank=True)
     email = models.EmailField(
-        null=True
+        max_length=255,
+        unique=True,
     )
-    role = models.CharField(
+    firm = models.CharField(
         blank=True,
         null=True,
     )
+
+    def __str__(self):
+        return self.email

@@ -25,6 +25,7 @@ djangorestframework-simplejwt = "5.3.1"
 django-model-utils = "4.4.0"
 django-4-jet = "^1.0.9"
 whitenoise = "^6.6.0"
+confluent-kafka = "^2.3.0"
 
 
 [build-system]
