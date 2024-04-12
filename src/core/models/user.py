@@ -13,7 +13,8 @@ class User(AbstractUser, TimeStampedUUIDModel):
     )
     name = CharField(
         null=True,
-        blank=True)
+        blank=True
+    )
     email = models.EmailField(
         max_length=255,
         unique=True,
@@ -23,6 +24,3 @@ class User(AbstractUser, TimeStampedUUIDModel):
         blank=True,
         null=True,
     )
-
-    def __str__(self):
-        return self.email
