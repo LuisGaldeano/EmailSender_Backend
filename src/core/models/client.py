@@ -1,14 +1,12 @@
-from django.contrib.auth.models import AbstractUser
-from django.forms import CharField
 from django.db import models
 from core.models.abstract import TimeStampedUUIDModel
 
 
-class Client(AbstractUser, TimeStampedUUIDModel):
-    name = CharField(
+class ClientUser(TimeStampedUUIDModel):
+    name = models.CharField(
         null=True,
         blank=True)
-    email = models.EmailField(
+    client_email = models.EmailField(
         max_length=255,
         unique=True,
     )
@@ -18,4 +16,4 @@ class Client(AbstractUser, TimeStampedUUIDModel):
     )
 
     def __str__(self):
-        return self.email
+        return self.client_email

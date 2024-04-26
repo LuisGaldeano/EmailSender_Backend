@@ -45,17 +45,6 @@ services:
       - vol_logs:/logs
       - vol_media:/src/media
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: ${PROJECT_NAME}_pgadmin
-    restart: unless-stopped
-    env_file:
-      - .env
-    ports:
-      - "5050:5050"
-    volumes:
-      - vol_backend_pgadmin_data:/var/lib/pgadmin
-
   zookeeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper

@@ -1,7 +1,7 @@
-from django.forms import CharField
 from django.db import models
+
+from core.models import ClientUser
 from core.models.abstract import TimeStampedUUIDModel
-from core.models.client import Client
 
 
 class Email(TimeStampedUUIDModel):
@@ -15,16 +15,16 @@ class Email(TimeStampedUUIDModel):
         null=True,
     )
 
-    extra_parameters = CharField(
+    extra_parameters = models.CharField(
+        blank=True,
         null=True,
-        blank=True
     )
 
-    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(ClientUser, on_delete=models.CASCADE)
 
-    custom_data = CharField(
+    custom_data = models.CharField(
+        blank=True,
         null=True,
-        blank=True
     )
 
     def __str__(self):
