@@ -1,1 +1,1 @@
-from .email_serializers import CreateNewEmailView
+from .email_views import CreateNewEmailView
