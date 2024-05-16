@@ -18,7 +18,12 @@ class EmailSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         instance = super().create(validated_data)
 
-        producer = MessageProducer(topic=os.getenv("TOPIC"), group_id='proyecto')
-        producer.send_message(instance)
+        validated_data['template'] = instance.template
+        validated_data['username'] = instance.username
+        validated_data['client_email'] = instance.client_email
+        validated_data['address'] = instance.address
+
+        producer = MessageProducer(topic=os.getenv("TOPIC"), group_id='test_group')
+        producer.send_message(validated_data)
 
         return instance
