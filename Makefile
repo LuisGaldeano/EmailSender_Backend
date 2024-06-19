@@ -5,7 +5,8 @@ MAKEFLAGS += --no-print-directory
 
 # Constants
 TAIL_LOGS = 50
-PYTEST_WORKERS = 8
+TEST_WORKERS = auto
+PYLINT_FAIL_UNDER = 8
 
 up:
 	$s docker compose up --force-recreate -d
@@ -71,3 +72,25 @@ update-requirements:
 
 all-logs:
 	$s docker compose logs --tail ${TAIL_LOGS} -f
+
+ruff:
+	$s docker exec ${PROJECT_NAME}_backend ruff check .
+
+pylint:
+	$s docker exec ${PROJECT_NAME}_backend pylint --fail-under=${PYLINT_FAIL_UNDER} core backend tests
+
+linters: ruff pylint
+
+black:
+	$s docker exec ${PROJECT_NAME}_backend black .
+
+isort:
+	$s docker exec ${PROJECT_NAME}_backend isort .
+
+code-style: isort black
+
+install-test-dependencies:
+	$s docker exec ${PROJECT_NAME}_backend poetry install --with test
+
+test: install-test-dependencies
+	$s docker exec ${PROJECT_NAME}_backend coverage run manage.py test --parallel=${TEST_WORKERS} --keepdb

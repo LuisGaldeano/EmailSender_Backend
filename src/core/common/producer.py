@@ -1,6 +1,7 @@
-import os
 import json
 import logging
+import os
+
 from confluent_kafka import Producer
 
 logger = logging.getLogger("SendEmail")
@@ -14,9 +15,9 @@ class MessageProducer(Producer):
         self.topic = topic
         super().__init__(
             {
-                'bootstrap.servers': f"{self.broker_host}:{self.broker_port}",
-                'group.id': group_id,
-                'auto.offset.reset': 'earliest'
+                "bootstrap.servers": f"{self.broker_host}:{self.broker_port}",
+                "group.id": group_id,
+                "auto.offset.reset": "earliest",
             }
         )
         logger.info("Producer has been initialized for topic '%s'", self.topic)
@@ -24,8 +25,5 @@ class MessageProducer(Producer):
     def send_message(self, message_data):
         logger.info("Sending")
         message = json.dumps(message_data)
-        self.produce(
-            topic=self.topic,
-            value=message.encode('utf-8')
-        )
+        self.produce(topic=self.topic, value=message.encode("utf-8"))
         self.flush()

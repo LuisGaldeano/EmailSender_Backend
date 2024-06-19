@@ -3,31 +3,60 @@ name = "backend"
 version = "0.1.0"
 description = ""
 authors = ["LuisGaldeano <luis.galdeano@jumbotours.com>"]
-readme = "README.md"
 
 [tool.poetry.dependencies]
-# Basics
 python = ">=3.10,<4.0.0"
-
-#Django
 django = "5.0.3"
-
-# Django rest framework
+django-4-jet = "1.0.9"
+django-model-utils = "4.4.0"
+whitenoise = "6.6.0"
 djangorestframework = "3.15.0"
 django-cors-headers = "4.3.1"
-
-# Gunicorn
-gunicorn = "21.2.0"
-
-# PostgreSQL
-psycopg2-binary = "2.9.9"
 djangorestframework-simplejwt = "5.3.1"
-django-model-utils = "4.4.0"
-django-4-jet = "^1.0.9"
-whitenoise = "^6.6.0"
-confluent-kafka = "^2.3.0"
+gunicorn = "21.2.0"
+psycopg2-binary = "2.9.9"
+confluent-kafka = "2.3.0"
+factory-boy = "3.3.0"
+django-extensions = "3.2.3"
+ipython = "8.24.0"
 
+[tool.poetry.group.test.dependencies]
+pylint = "3.2.2"
+black = "24.4.2"
+isort = "5.13.2"
+ipdb = "0.13.13"
+ruff = "0.4.4"
+coverage = "7.5.1"
+tblib = "3.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pylint]
+max-line-length = 120
+disable = ["C0114", "W0718", "R0902", "R0903", "C0115", "E1101", "C0116", "C0103"]
+
+[tool.black]
+line-length = 120
+
+[tool.isort]
+skip = "__init__.py"
+src_paths = ["core", "tests", "backend"]
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+]
+
+[tool.coverage.run]
+relative_files = true
+
+[tool.ruff]
+line-length = 120
+exclude = [
+    ".pytest_cache",
+    "venv",
+]
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401", "F403"]

@@ -1,8 +1,11 @@
-from core.api import views as core_views
 from django.urls import path
 
-app_name = 'core'
+from core.api import views as core_views
+
+app_name = "core"
 
 urlpatterns = [
-    path('email/', core_views.CreateNewEmailView.as_view(), name="send_message"),
+    path("user/", core_views.UserListCreateView.as_view(), name="user"),
+    path("template/", core_views.TemplateListCreateView.as_view(), name="template"),
+    path("email/", core_views.EmailListCreateView.as_view(), name="email"),
 ]
