@@ -24,7 +24,6 @@ build:
 	$s docker compose build
 
 complete-build:
-	$s docker image prune -af
 	$s docker compose build
 	$s docker compose down
 	$s docker compose up --force-recreate -d
